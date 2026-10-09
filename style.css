@@ -1,16 +1,16 @@
 /* Sitekit — общий стиль всех сайтов. Цвета, шрифт и скругления приходят из темы (переменные в <head>). */
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font),-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font),-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:var(--fs,17px);line-height:1.55;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
 a{color:var(--accent)}
-h1,h2,h3{margin:0;line-height:1.15;letter-spacing:-.02em;text-wrap:balance}
-h1{font-size:clamp(34px,6vw,60px);font-weight:800}
-h2{font-size:clamp(26px,3.6vw,38px);font-weight:700}
-h3{font-size:19px;font-weight:600}
+h1,h2,h3{margin:0;line-height:1.15;letter-spacing:var(--track,-.02em);text-wrap:balance;font-family:var(--font-head),var(--font),sans-serif;font-weight:var(--hw,700)}
+h1{font-size:clamp(32px,5.6vw,56px);overflow-wrap:anywhere}
+h2{font-size:clamp(25px,3.4vw,36px)}
+h3{font-size:19px;letter-spacing:0}
 p{margin:0}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 20px}
+.wrap{width:100%;max-width:var(--width,1120px);margin:0 auto;padding:0 20px}
 .wrap.narrow{max-width:760px}
 section{padding:clamp(44px,7vw,88px) 0;scroll-margin-top:64px}
 .sec-head{margin-bottom:28px;display:grid;gap:10px}
@@ -20,9 +20,10 @@ section{padding:clamp(44px,7vw,88px) 0;scroll-margin-top:64px}
 /* ---------- шапка ---------- */
 .topbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 86%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:62px}
-.logo{display:flex;align-items:center;text-decoration:none;color:var(--ink)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
 .logo-img{height:30px;width:auto}
-.logo-text{font-weight:800;font-size:19px;letter-spacing:-.02em}
+.logo-text{font-family:var(--font-head),var(--font),sans-serif;font-weight:700;font-size:19px;letter-spacing:var(--track,-.02em)}
+.logo-mark{display:none;width:32px;height:32px;place-items:center;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:17px;border-radius:min(var(--radius),10px)}
 .nav{display:flex;gap:4px;flex-wrap:wrap}
 .nav a{padding:8px 12px;border-radius:999px;color:var(--muted);text-decoration:none;font-size:15px;font-weight:500}
 .nav a:hover,.nav a[aria-current]{color:var(--ink);background:var(--surface)}
@@ -135,3 +136,71 @@ a.item:hover{transform:translateY(-2px)}
   .product-pic{height:100%;aspect-ratio:auto}
   .proscons{grid-template-columns:1fr 1fr}
 }
+
+/* ================= варианты раскладки (классы на <body>, выбираются генератором для каждого сайта) ================= */
+
+/* --- логотип --- */
+body.logo-mark .logo-mark{display:grid}
+body.logo-dot .logo-text::after{content:"";display:inline-block;width:.34em;height:.34em;margin-left:.12em;border-radius:50%;background:var(--accent)}
+body.logo-upper .logo-text{text-transform:uppercase;letter-spacing:.08em;font-size:16px}
+
+/* --- шапка --- */
+body.header-bar .topbar{background:var(--accent);border-bottom-color:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
+body.header-bar .logo,body.header-bar .nav a{color:var(--accent-ink)}
+body.header-bar .nav a{opacity:.82}
+body.header-bar .nav a:hover,body.header-bar .nav a[aria-current]{opacity:1;background:color-mix(in srgb,var(--accent-ink) 16%,transparent);color:var(--accent-ink)}
+body.header-bar .burger span{background:var(--accent-ink)}
+body.header-bar .logo-mark{background:var(--accent-ink);color:var(--accent)}
+body.header-bar.logo-dot .logo-text::after{background:var(--accent-ink)}
+body.header-split .topbar{position:static;border-bottom:0}
+body.header-split .topbar .wrap{min-height:76px;border-bottom:2px solid var(--ink)}
+body.header-split .nav a{border-radius:0;padding:8px 10px}
+body.header-split .nav a:hover,body.header-split .nav a[aria-current]{background:none;text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:2px}
+@media (min-width:721px){
+  body.header-center .topbar{position:static}
+  body.header-center .topbar .wrap{flex-direction:column;justify-content:center;gap:6px;padding-top:18px;padding-bottom:10px}
+  body.header-center .logo-text{font-size:24px}
+  body.header-center .nav{justify-content:center}
+}
+
+/* --- первый экран --- */
+body.hero-center .hero:not(.has-pic) .hero-text{justify-items:center;text-align:center;margin:0 auto}
+body.hero-center .hero:not(.has-pic) .lead{margin:0 auto}
+body.hero-center .hero:not(.has-pic) .btns{justify-content:center}
+body.hero-band .hero{background:var(--surface);border-bottom:1px solid var(--line)}
+body.hero-card .hero .wrap{position:relative}
+body.hero-card .hero-text{padding:clamp(24px,5vw,56px);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);border-left:6px solid var(--accent)}
+
+/* --- карточки --- */
+body.cards-flat .card{border-color:transparent}
+body.cards-shadow .card{background:var(--bg);border-color:var(--line);box-shadow:0 8px 28px rgba(0,0,0,.09)}
+body.cards-line .card{background:none;border-width:2px 0 0;border-color:var(--ink);border-radius:0}
+body.cards-line .card-body,body.cards-line .feature,body.cards-line .review{padding-left:0;padding-right:0}
+body.cards-line .card-pic{margin-top:14px;border-radius:var(--radius)}
+body.cards-line .faq details{padding:0}
+body.cards-line .product-body,body.cards-line .proscons .card,body.cards-line .card.contacts,body.cards-line .cta{padding-left:0;padding-right:0}
+
+/* --- лента статей --- */
+@media (min-width:640px){
+  body.list-rows .posts-grid{grid-template-columns:1fr;gap:14px}
+  body.list-rows .posts-grid .item{flex-direction:row;align-items:stretch}
+  body.list-rows .posts-grid .card-pic{width:240px;flex:none;aspect-ratio:auto;height:auto;min-height:150px}
+  body.list-rows .posts-grid .card-body{align-content:center;padding:22px}
+  body.list-rows.cards-line .posts-grid .card-pic{margin:14px 22px 14px 0}
+  body.list-lead .posts-grid{grid-template-columns:repeat(3,1fr)}
+  body.list-lead .posts-grid .item:first-child{grid-column:1/-1}
+  body.list-lead .posts-grid .item:first-child h3{font-size:clamp(22px,2.6vw,30px)}
+  body.list-lead .posts-grid .item:first-child .card-pic{aspect-ratio:21/9}
+}
+@media (min-width:640px) and (max-width:900px){body.list-lead .posts-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* --- кнопки --- */
+body.buttons-round .btn{border-radius:min(var(--radius),14px)}
+body.buttons-square .btn{border-radius:3px}
+body.buttons-round .nav a,body.buttons-square .nav a{border-radius:6px}
+
+/* --- подвал --- */
+body.footer-surface .footer{background:var(--surface)}
+body.footer-accent .footer{background:var(--accent);color:var(--accent-ink);border-top:0}
+body.footer-accent .footer p,body.footer-accent .footer dt{color:inherit;opacity:.8}
+@media (max-width:720px){body.header-bar .nav{background:var(--accent);border-bottom:0}}
